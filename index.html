@@ -1,0 +1,513 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freedom And Security | CCTV & Tech Solutions</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --primary: #0066cc;       /* Vibrant Blue */
+            --primary-dark: #004080;
+            --accent: #1a1a1a;        /* Nearly Black */
+            --light: #ffffff;
+            --gray-bg: #f8f9fa;
+            --whatsapp: #25D366;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--accent);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { width: 100%; height: auto; display: block; }
+
+        /* --- 2. HEADER --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-menu { display: flex; gap: 30px; }
+        .nav-menu a { font-weight: 600; font-size: 0.95rem; position: relative; }
+        .nav-menu a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background: var(--primary); transition: 0.3s;
+        }
+        .nav-menu a:hover { color: var(--primary); }
+        .nav-menu a:hover::after { width: 100%; }
+
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--accent); }
+
+        /* --- 3. ANIMATED HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,30,60,0.7)), 
+                        url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-content { max-width: 800px; animation: fadeInUp 1s ease-out; }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .hero h1 span { color: #4dabf7; }
+        
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn-primary { background: var(--primary); color: white; border: 2px solid var(--primary); }
+        .btn-primary:hover { background: transparent; transform: translateY(-3px); }
+        
+        .btn-outline { background: transparent; color: white; border: 2px solid white; }
+        .btn-outline:hover { background: white; color: var(--accent); transform: translateY(-3px); }
+
+        /* --- 4. SCROLL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 5. SERVICES GRID --- */
+        .section { padding: 80px 5%; }
+        .bg-light { background: var(--gray-bg); }
+        
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        .section-header p { color: #666; max-width: 600px; margin: 0 auto; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-top: 4px solid var(--primary);
+        }
+        .icon-box {
+            width: 70px; height: 70px;
+            background: rgba(0, 102, 204, 0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        .service-card p { font-size: 0.9rem; color: #666; }
+
+        /* --- 6. FORM SECTION (WHATSAPP LOGIC) --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            background: var(--accent);
+            color: white;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .info-item { display: flex; gap: 15px; margin-bottom: 25px; align-items: flex-start; }
+        .info-item i { color: var(--primary); font-size: 1.2rem; margin-top: 5px; }
+        .info-item h4 { font-size: 1.1rem; margin-bottom: 5px; }
+        .info-item p { font-size: 0.9rem; color: #ccc; }
+
+        .contact-form { padding: 50px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+        .form-control {
+            width: 100%; padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .form-control:focus { outline: none; border-color: var(--primary); background: white; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-submit:hover { background: #1ebc57; transform: scale(1.02); }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            background: #111;
+            color: #aaa;
+            padding: 50px 5% 20px;
+            text-align: center;
+        }
+        .footer-logo { font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 20px; display: inline-block; }
+        .footer-logo span { color: var(--primary); }
+        .social-links { margin-bottom: 30px; }
+        .social-links a {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.1);
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            margin: 0 5px;
+            color: white;
+        }
+        .social-links a:hover { background: var(--primary); }
+        .copyright { border-top: 1px solid #222; padding-top: 20px; font-size: 0.85rem; }
+
+        /* --- 8. FLOATING BUTTONS --- */
+        .float-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--whatsapp);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+            animation: bounce 2s infinite;
+        }
+        .float-call {
+            right: 100px;
+            background: var(--primary);
+            animation: none;
+        }
+
+        /* --- KEYFRAMES & MEDIA QUERIES --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed; top: 70px; left: 0; width: 100%;
+                background: white; flex-direction: column;
+                align-items: center; padding: 40px 0;
+                transform: translateY(-150%); transition: 0.4s;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+            }
+            .nav-menu.active { transform: translateY(0); }
+            .hamburger { display: block; }
+            
+            .hero h1 { font-size: 2.2rem; }
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .float-call { bottom: 100px; right: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><i class="fas fa-shield-alt"></i> Freedom <span>Security</span></div>
+        <nav>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+                <li><a href="#services" onclick="toggleMenu()">Services</a></li>
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Your Freedom, <br><span>Our Security</span></h1>
+            <p>Professional CCTV Installation, Maintenance, and Computer Repair Services across Himachal Pradesh.</p>
+            <div class="btn-group">
+                <a href="#contact" class="btn btn-primary">Get a Quote</a>
+                <a href="#services" class="btn btn-outline">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section bg-light">
+        <div class="section-header reveal">
+            <h2>Our Expertise</h2>
+            <p>Complete security and IT solutions tailored for homes and businesses.</p>
+        </div>
+        <div class="grid-container">
+            <div class="service-card reveal">
+                <div class="icon-box"><i class="fas fa-video"></i></div>
+                <h3>CCTV Installation</h3>
+                <p>HD & IP Camera setup with mobile view configuration.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                <h3>Computer Repair</h3>
+                <p>Hardware fixes, software installation, and virus removal.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="icon-box"><i class="fas fa-tools"></i></div>
+                <h3>Maintenance (AMC)</h3>
+                <p>Annual contracts to ensure your systems never fail.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                <h3>Networking</h3>
+                <p>Intercom and structured cabling for offices.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section" style="background: var(--accent); color: white;">
+        <div class="section-header reveal">
+            <h2 style="color:white;">Why Choose Us?</h2>
+            <p style="color:#aaa;">Trusted by customers in Mandi, Pandoh, and Sambal.</p>
+        </div>
+        <div class="grid-container" style="text-align:center;">
+            <div class="reveal">
+                <i class="fas fa-user-shield" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                <h4>Expert Technicians</h4>
+            </div>
+            <div class="reveal">
+                <i class="fas fa-tags" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                <h4>Best Prices</h4>
+            </div>
+            <div class="reveal">
+                <i class="fas fa-clock" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                <h4>Fast Support</h4>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section bg-light">
+        <div class="section-header reveal">
+            <h2>Contact Us</h2>
+            <p>Fill out the form below to send your inquiry directly to our WhatsApp.</p>
+        </div>
+        
+        <div class="contact-wrapper reveal">
+            <div class="contact-info">
+                <h3>Get In Touch</h3>
+                <p style="margin-bottom:30px; color:#ddd;">We are ready to secure your world.</p>
+                
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Village Sambal, PO Pandoh,<br>Mandi, HP - 175124</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+91 82199 73402</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>freedomsecurity@example.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="whatsappForm" onsubmit="sendToWhatsapp(event)">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Service Needed</label>
+                        <select id="service" class="form-control">
+                            <option>CCTV Installation</option>
+                            <option>Camera Repair</option>
+                            <option>Computer Repair</option>
+                            <option>General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="message" class="form-control" rows="4" placeholder="Describe your requirement..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fab fa-whatsapp"></i> Send to WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">Freedom <span>Security</span></div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="copyright">
+            &copy; 2024 Freedom And Security. All Rights Reserved.
+        </div>
+    </footer>
+
+    <a href="tel:8219973402" class="float-btn float-call">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+    <a href="https://wa.me/918219973402" class="float-btn float-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // 1. Mobile Menu Toggle
+        function toggleMenu() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('active');
+        }
+
+        // 2. Scroll Animation Observer
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for(var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+                if(revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        // 3. Send to WhatsApp Function
+        function sendToWhatsapp(e) {
+            e.preventDefault(); // Prevent page reload
+
+            // Get values
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let service = document.getElementById('service').value;
+            let message = document.getElementById('message').value;
+
+            // Format message
+            let whatsappMessage = `*New Website Inquiry*%0a%0a` +
+                                  `*Name:* ${name}%0a` +
+                                  `*Phone:* ${phone}%0a` +
+                                  `*Service:* ${service}%0a` +
+                                  `*Message:* ${message}`;
+
+            // Your Phone Number
+            let myNumber = "918219973402";
+
+            // Create URL
+            let url = `https://wa.me/${myNumber}?text=${whatsappMessage}`;
+
+            // Open WhatsApp
+            window.open(url, '_blank').focus();
+        }
+    </script>
+
+</body>
+</html>
