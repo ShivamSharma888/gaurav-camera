@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>GEHS Mehani — Smart Office & PDF Portal v2.0</title>
+  <style>
+    :root {
+      --primary: #1a56db;
+      --primary-dark: #1e40af;
+      --primary-light: #eff6ff;
+      --accent: #0f766e;
+      --whatsapp: #16a34a;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --success: #15803d;
+      --success-bg: #f0fdf4;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 86px;
+      line-height: 1.45;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #1e3a8a, #1a56db);
+      color: #fff;
+      padding: 13px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.16);
+    }
+
+    .app-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .school-badge {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 2px 8px;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+
+    .app-header h1 { font-size: 16.5px; font-weight: 700; }
+    .app-header p { font-size: 11.5px; opacity: 0.9; }
+
+    .header-actions button {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 12px;
+      gap: 8px;
+    }
+
+    .step-pill {
+      flex: 1;
+      text-align: center;
+      padding: 7px 6px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f8fafc;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .step-pill.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: #93c5fd;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    /* Google Form Card */
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      border-top: 6px solid var(--primary);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-card.teal { border-top-color: var(--accent); }
+    .form-card.amber { border-top-color: #d97706; }
+    .form-card.purple { border-top-color: #7c3aed; }
+    .form-card.green { border-top-color: var(--whatsapp); }
+
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+
+    .form-group { margin-bottom: 13px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #1e293b;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+      min-height: 42px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.12);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 580px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      min-height: 42px;
+      transition: 0.15s ease;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-whatsapp { background: var(--whatsapp); color: #fff; }
+    .btn-outline { background: #fff; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+    .btn-sm { padding: 6px 10px; font-size: 12px; min-height: 34px; border-radius: 8px; }
+    .btn-block { width: 100%; }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    /* Teacher Chips */
+    .teacher-check-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 8px;
+    }
+
+    .teacher-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #f8fafc;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .teacher-chip.checked {
+      background: #fef2f2;
+      border-color: #f87171;
+      color: #991b1b;
+    }
+
+    .teacher-chip input { width: 18px; height: 18px; accent-color: var(--danger); }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+
+    table.ui-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    table.ui-table th, table.ui-table td {
+      border: 1px solid #e2e8f0;
+      padding: 7px 8px;
+      text-align: left;
+    }
+
+    table.ui-table th {
+      background: #f1f5f9;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .alert {
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .alert-warn { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
+    .alert-ok { background: var(--success-bg); border: 1px solid #86efac; color: #166534; }
+
+    /* Stat Cards */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 580px) {
+      .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px;
+      text-align: center;
+    }
+    .stat-box .num { font-size: 18px; font-weight: 800; color: var(--primary); }
+    .stat-box .lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
+
+    /* Scrollable Mobile Bottom Nav (8 Modules) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      overflow-x: auto;
+      padding: 6px 4px;
+      z-index: 60;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+      scrollbar-width: none;
+    }
+    .bottom-nav::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      flex: 1 0 auto;
+      min-width: 64px;
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 4px 6px;
+      cursor: pointer;
+    }
+
+    .nav-btn span.ico { font-size: 17px; }
+    .nav-btn.active { color: var(--primary); background: var(--primary-light); border-radius: 8px; }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 78px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 200;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    /* A4 Sheet */
+    .review-sheet-wrapper {
+      background: #cbd5e1;
+      padding: 12px;
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+
+    .a4-sheet {
+      background: #fff;
+      color: #000;
+      width: 100%;
+      max-width: 794px;
+      margin: 0 auto;
+      padding: 24px 28px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .a4-header {
+      text-align: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .a4-header h2 { font-size: 18px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+    .a4-header .sub1 { font-size: 13px; font-weight: bold; }
+    .a4-header .sub2 { font-size: 12px; }
+
+    .a4-doc-title {
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: underline;
+      margin: 10px 0 8px;
+      text-transform: uppercase;
+    }
+
+    .a4-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    table.a4-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    table.a4-table th, table.a4-table td {
+      border: 1px solid #000;
+      padding: 5px 7px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table.a4-table th {
+      background: #f1f5f9 !important;
+      font-weight: bold;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    table.a4-table td.left { text-align: left; }
+
+    .a4-notes { font-size: 12px; margin-top: 8px; text-align: left; }
+
+    .a4-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 34px;
+      font-size: 12.5px;
+      font-weight: bold;
+    }
+
+    .a4-sig-box { text-align: center; min-width: 180px; }
+    .hidden { display: none !important; }
+
+    @media print {
+      @page { size: A4 portrait; margin: 10mm; }
+      body { background: #fff !important; padding: 0 !important; }
+      .app-header, .stepper, .no-print, .bottom-nav, .toast { display: none !important; }
+      .container, .review-sheet-wrapper { padding: 0 !important; margin: 0 !important; background: #fff !important; max-width: 100% !important; }
+      .a4-sheet { box-shadow: none !important; padding: 4px !important; max-width: 100% !important; width: 100% !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="app-header-top">
+      <div>
+        <span class="school-badge">UDISE: 02050201502 • Block Sadar-2 (Kataula)</span>
+        <h1>GEHS Mehani Smart Office v2.0</h1>
+        <p>Govt. Excellence High School Mehani, Distt. Mandi (H.P.)</p>
+      </div>
+      <div class="header-actions">
+        <button onclick="openDataModal()">⚙️ Staff/Data</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stepper -->
+  <div class="stepper no-print">
+    <div class="step-pill active" id="pill-form" onclick="setViewMode('form')">1. Fill Form Data</div>
+    <div class="step-pill" id="pill-review" onclick="goToReview()">2. Review & PDF</div>
+  </div>
+
+  <main class="container">
+
+    <!-- ==================== 1. BELL SCHEDULE ==================== -->
+    <section id="tab-bell" class="module-section">
+      <div class="form-card">
+        <div class="card-title">🔔 Bell Timing Schedule Form</div>
+        <div class="card-sub">Choose Regular or Exam Winter Session timings, edit if needed, and export A4 PDF.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Schedule Type</label>
+            <select id="bell-type" onchange="loadBellPreset()">
+              <option value="regular">Regular Day Bell Schedule (09:00 AM – 03:00 PM)</option>
+              <option value="exam">Exam Day Bell Schedule — Winter Session</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Effective Session</label>
+            <input type="text" id="bell-session" value="Academic Session 2026–27" />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="ui-table">
+            <thead>
+              <tr>
+                <th>Period / Event</th>
+                <th>Time Slot</th>
+                <th>Duration</th>
+                <th>Bell / Remarks</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="bell-tbody"></tbody>
+          </table>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" onclick="addBellRow()">+ Add Row</button>
+          <button class="btn btn-outline btn-sm" onclick="resetBellDefault()">↺ Reset Default</button>
+        </div>
+
+        <div class="form-group" style="margin-top:12px;">
+          <label>Footer Note</label>
+          <input type="text" id="bell-note" value="Total School Hours: 09:00 AM to 03:00 PM. All staff & students must assemble 5 minutes before warning bell." />
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="goToReview()">Review Bell Schedule & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== 2. TEACHER ADJUSTMENT ==================== -->
+    <section id="tab-adj" class="module-section hidden">
+      <div class="form-card">
+        <div class="card-title">🔄 Teacher Absence & Substitution Form</div>
+        <div class="card-sub">Tick absent teacher(s) below. Free teachers with lowest workload are auto-assigned.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="adj-date" onchange="generateAdjustments()" />
+          </div>
+          <div class="form-group">
+            <label>Order / Dispatch No.</label>
+            <input type="text" id="adj-dispatch" placeholder="e.g. GEHS/MHN/2026/142" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Select Absent Teacher(s) Today</label>
+          <div class="teacher-check-grid" id="absent-teachers-list"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" onclick="generateAdjustments()">⚡ Re-Calculate Free Teachers</button>
+          <button class="btn btn-whatsapp btn-sm" onclick="copyWhatsAppAdjustment()">📲 Copy for WhatsApp</button>
+        </div>
+
+        <div id="adj-editor-area" style="margin-top: 14px;"></div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label>Additional Duty Note</label>
+          <input type="text" id="adj-note" value="All adjusted teachers are requested to engage the allotted classes punctually and maintain discipline." />
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="goToReview()">Review Adjustment Order & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== 3. TIMETABLE ==================== -->
+    <section id="tab-tt" class="module-section hidden">
+      <div class="form-card teal">
+        <div class="card-title">📅 Class-Wise & Teacher-Wise Timetable</div>
+        <div class="card-sub">Edit any period below. Teacher-wise schedules, workload counts, and clash checks update live.</div>
+
+        <div id="tt-clash-box"></div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>PDF Output Format</label>
+            <select id="tt-pdf-mode" onchange="toggleSingleTeacherSelect()">
+              <option value="all-teachers">All Teachers Individual Timetables (PDF)</option>
+              <option value="single-teacher">Single Selected Teacher Timetable</option>
+              <option value="master-class">Master Class-Wise Timetable (6th to 10th)</option>
+            </select>
+          </div>
+          <div class="form-group hidden" id="tt-single-teacher-wrap">
+            <label>Select Teacher</label>
+            <select id="tt-single-teacher"></select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="ui-table">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Class 6th</th>
+                <th>Class 7th</th>
+                <th>Class 8th</th>
+                <th>Class 9th</th>
+                <th>Class 10th</th>
+              </tr>
+            </thead>
+            <tbody id="tt-master-tbody"></tbody>
+          </table>
+        </div>
+
+        <button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="goToReview()">Review Timetable & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== 4. EXAM DATE SHEET ==================== -->
+    <section id="tab-ds" class="module-section hidden">
+      <div class="form-card amber">
+        <div class="card-title">📝 Exam Date Sheet Generator</div>
+        <div class="card-sub">Auto-skips Sundays. Edit subjects per class and generate A4 PDF or WhatsApp notice.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Examination Name</label>
+            <input type="text" id="ds-title" value="FORMATIVE ASSESSMENT - III (FA-III) DATE SHEET (2026-27)" />
+          </div>
+          <div class="form-group">
+            <label>Exam Timing</label>
+            <input type="text" id="ds-time" value="09:25 AM to 10:05 AM (Morning Session)" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="ds-start-date" onchange="autoFillDateSheetDates()" />
+          </div>
+          <div class="form-group">
+            <label>Exam Days</label>
+            <select id="ds-days-count" onchange="rebuildDateSheetRows()">
+              <option value="5">5 Days</option>
+              <option value="6" selected>6 Days</option>
+              <option value="7">7 Days</option>
+              <option value="8">8 Days</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="ui-table">
+            <thead>
+              <tr>
+                <th>Date & Day</th>
+                <th>6th</th>
+                <th>7th</th>
+                <th>8th</th>
+                <th>9th</th>
+                <th>10th</th>
+              </tr>
+            </thead>
+            <tbody id="ds-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label>Exam Instructions</label>
+          <textarea id="ds-instructions" rows="2">1. Regular classes will commence immediately after the examination at 10:05 AM.
+2. Students must bring their own geometry box and writing material.</textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-whatsapp" onclick="copyWhatsAppDateSheet()">📲 Copy for WhatsApp</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="goToReview()">Review Date Sheet & Create PDF →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. WORK ALLOTMENT ==================== -->
+    <section id="tab-work" class="module-section hidden">
+      <div class="form-card">
+        <div class="card-title">📋 Staff Work & Portfolio Allotment Form</div>
+        <div class="card-sub">Assign administrative charges, registers, clubs, and duties to GEHS Mehani staff.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Office Order No.</label>
+            <input type="text" id="work-order-no" value="EDN-MND-Mehani-2026-27/" />
+          </div>
+          <div class="form-group">
+            <label>Order Date</label>
+            <input type="date" id="work-date" />
+          </div>
+        </div>
+
+        <div id="work-list-container"></div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" onclick="addWorkRow()">+ Add Staff Duty</button>
+        </div>
+
+        <button class="btn btn-primary btn-block" style="margin-top: 14px;" onclick="goToReview()">Review Work Allotment & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== 6. EXAM SEATING PLAN & INVIGILATION ==================== -->
+    <section id="tab-seat" class="module-section hidden">
+      <div class="form-card purple">
+        <div class="card-title">🪑 Exam Seating Plan & Invigilation Duty</div>
+        <div class="card-sub">Pre-configured for GEHS Mehani's 57 students. Alternates classes per room to prevent copying.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Exam Title</label>
+            <input type="text" id="seat-exam" value="FA-III / TERM EXAMINATION SEATING PLAN" />
+          </div>
+          <div class="form-group">
+            <label>Date & Shift</label>
+            <input type="text" id="seat-date" value="Morning Session (09:25 AM – 10:05 AM)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Class-Wise Roll Number Ranges (Total: <span id="seat-total-students">57</span> Students)</label>
+          <div class="table-wrap">
+            <table class="ui-table">
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Start Roll</th>
+                  <th>End Roll</th>
+                  <th>Total Students</th>
+                </tr>
+              </thead>
+              <tbody id="seat-strength-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Room & Invigilator Allotment</label>
+          <div id="seat-rooms-list"></div>
+          <button class="btn btn-outline btn-sm" style="margin-top:6px;" onclick="addExamRoom()">+ Add Exam Room</button>
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="goToReview()">Review Seating Plan & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== 7. DAILY ATTENDANCE & MDM ==================== -->
+    <section id="tab-mdm" class="module-section hidden">
+      <div class="form-card green">
+        <div class="card-title">🍛 Daily Attendance & Mid-Day Meal (MDM)</div>
+        <div class="card-sub">Enter today's present students. Auto-calculates MDM ration (150g rice/student for 6th–8th) & WhatsApp report.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="mdm-date" onchange="updateMDMStats()" />
+          </div>
+          <div class="form-group">
+            <label>Today's MDM Menu</label>
+            <input type="text" id="mdm-menu" value="Dal Chawal & Seasonal Sabzi" oninput="updateMDMStats()" />
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-box"><div class="num" id="stat-enrolled">57</div><div class="lbl">Total Enrolled</div></div>
+          <div class="stat-box"><div class="num" id="stat-present">52</div><div class="lbl">Total Present</div></div>
+          <div class="stat-box"><div class="num" id="stat-mdm-kids">33</div><div class="lbl">MDM (6th–8th)</div></div>
+          <div class="stat-box"><div class="num" id="stat-rice">4.95 kg</div><div class="lbl">Rice @150g</div></div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="ui-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Enrolled</th>
+                <th>Present Today</th>
+                <th>Absent</th>
+                <th>MDM Eligible</th>
+              </tr>
+            </thead>
+            <tbody id="mdm-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn btn-whatsapp" onclick="copyWhatsAppMDM()">📲 Copy WhatsApp Report</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="goToReview()">Review MDM Register & Create PDF →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 8. OFFICIAL NOTICE / CIRCULAR ==================== -->
+    <section id="tab-notice" class="module-section hidden">
+      <div class="form-card">
+        <div class="card-title">📢 Official Notice / Circular / Duty Slip</div>
+        <div class="card-sub">Pick a ready-made GEHS Mehani template or write custom text to generate a signed letterhead PDF.</div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Quick Template</label>
+            <select id="notice-preset" onchange="loadNoticePreset()">
+              <option value="ptm">Parent-Teacher Meeting (PTM) Notice</option>
+              <option value="holiday">Local / Festival Holiday Notice</option>
+              <option value="duty">Official Out-of-Station Duty Order</option>
+              <option value="custom">Blank Official Notice</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date & Ref No.</label>
+            <input type="text" id="notice-ref" value="GEHS/MHN/2026/Notice-01" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notice Heading</label>
+          <input type="text" id="notice-heading" value="URGENT NOTICE — PARENT-TEACHER MEETING (PTM)" />
+        </div>
+
+        <div class="form-group">
+          <label>Body Text</label>
+          <textarea id="notice-body" rows="5">All parents/guardians of students studying in Classes 6th to 10th at Government Excellence High School Mehani are cordially invited to attend the Parent-Teacher Meeting (PTM) on Saturday at 10:30 AM in the school campus to discuss student academic progress, attendance, and upcoming examinations.</textarea>
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="goToReview()">Review Official Notice & Create PDF →</button>
+      </div>
+    </section>
+
+    <!-- ==================== STEP 2: OFFICIAL A4 REVIEW & PDF ==================== -->
+    <section id="review-section" class="hidden">
+      <div class="form-card no-print" style="border-top-color: var(--success);">
+        <div class="card-title">✅ Official A4 Document Review</div>
+        <div class="card-sub">Check the formatted letterhead document below. Tap <b>Save / Print Official PDF</b> to save as PDF.</div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="setViewMode('form')">← Back to Edit</button>
+          <button class="btn btn-success" onclick="window.print()">🖨️ Save / Print Official PDF</button>
+        </div>
+      </div>
+
+      <div class="review-sheet-wrapper">
+        <div class="a4-sheet" id="a4-output"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Staff & Backup Modal -->
+  <div id="data-modal" class="hidden" style="position:fixed;inset:0;background:rgba(15,23,42,0.6);z-index:100;overflow-y:auto;padding:16px;">
+    <div class="form-card" style="max-width:650px;margin:20px auto;">
+      <div class="card-title">⚙️ Manage GEHS Mehani Staff & Data</div>
+      <div class="card-sub">Add/remove teachers or export/import JSON backup between mobile and PC.</div>
+
+      <div id="staff-manager-list"></div>
+
+      <div class="grid-2" style="margin-top:10px;">
+        <input type="text" id="new-staff-name" placeholder="Teacher Name (e.g. Sh. Rajesh Kumar)" />
+        <input type="text" id="new-staff-desig" placeholder="Designation & Subject" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-sm" onclick="addNewStaff()">+ Add Teacher</button>
+        <button class="btn btn-outline btn-sm" onclick="exportBackup()">⬇️ Export JSON</button>
+        <label class="btn btn-outline btn-sm" style="margin:0;cursor:pointer;">
+          ⬆️ Import JSON <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
+        </label>
+        <button class="btn btn-danger btn-sm" onclick="factoryReset()">⚠️ Reset Defaults</button>
+        <button class="btn btn-outline btn-sm" onclick="closeDataModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav no-print">
+    <button class="nav-btn active" data-tab="bell" onclick="switchTab('bell')"><span class="ico">🔔</span><span>Bell</span></button>
+    <button class="nav-btn" data-tab="adj" onclick="switchTab('adj')"><span class="ico">🔄</span><span>Adjust</span></button>
+    <button class="nav-btn" data-tab="tt" onclick="switchTab('tt')"><span class="ico">📅</span><span>Timetable</span></button>
+    <button class="nav-btn" data-tab="ds" onclick="switchTab('ds')"><span class="ico">📝</span><span>Date Sheet</span></button>
+    <button class="nav-btn" data-tab="work" onclick="switchTab('work')"><span class="ico">📋</span><span>Work Duty</span></button>
+    <button class="nav-btn" data-tab="seat" onclick="switchTab('seat')"><span class="ico">🪑</span><span>Seating</span></button>
+    <button class="nav-btn" data-tab="mdm" onclick="switchTab('mdm')"><span class="ico">🍛</span><span>MDM/Att.</span></button>
+    <button class="nav-btn" data-tab="notice" onclick="switchTab('notice')"><span class="ico">📢</span><span>Notice</span></button>
+  </nav>
+
+  <script>
+    const DEFAULT_DATA = {
+      school: {
+        name: "GOVERNMENT EXCELLENCE HIGH SCHOOL (GEHS), MEHANI",
+        block: "Educational Block: Sadar-2 (Kataula), District Mandi (H.P.)",
+        udise: "02050201502",
+        headmaster: "Sh. Hem Singh"
+      },
+      teachers: [
+        { id: "T1", name: "Sh. Hem Singh", desig: "Headmaster (HM)", subject: "Admin / SST" },
+        { id: "T2", name: "Sh. Sunil Kumar", desig: "TGT (Non-Medical) / Asst. Head", subject: "Mathematics" },
+        { id: "T3", name: "Sh. Sohan Lal", desig: "TGT (Medical)", subject: "Science" },
+        { id: "T4", name: "Smt. Kamala Devi", desig: "TGT (Arts)", subject: "English" },
+        { id: "T5", name: "Sh. Tej Singh", desig: "TGT (Arts)", subject: "Social Studies" },
+        { id: "T6", name: "Smt. Dushala Kumari", desig: "TGT / Language Teacher", subject: "Hindi" },
+        { id: "T7", name: "Sh. Chander Mani", desig: "Drawing Master (D.M.)", subject: "Drawing / Art" },
+        { id: "T8", name: "Sh. Om Prakash", desig: "Shastri (O.T.)", subject: "Sanskrit" },
+        { id: "T9", name: "Sh. Shivam Sharma", desig: "ICT Instructor", subject: "Computer / ICT" }
+      ],
+      bellPresets: {
+        regular: [
+          { period: "Morning Assembly", time: "09:00 AM – 09:25 AM", duration: "25 Mins", remarks: "Warning Bell at 08:55 AM; Prayer & News" },
+          { period: "Period 1", time: "09:25 AM – 10:05 AM", duration: "40 Mins", remarks: "Single Bell" },
+          { period: "Period 2", time: "10:05 AM – 10:40 AM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 3", time: "10:40 AM – 11:15 AM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 4", time: "11:15 AM – 11:50 AM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 5", time: "11:50 AM – 12:25 PM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Lunch Break (Recess)", time: "12:25 PM – 12:55 PM", duration: "30 Mins", remarks: "Double Bell (Start & End)" },
+          { period: "Period 6", time: "12:55 PM – 01:30 PM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 7", time: "01:30 PM – 02:00 PM", duration: "30 Mins", remarks: "Single Bell" },
+          { period: "Period 8", time: "02:00 PM – 02:30 PM", duration: "30 Mins", remarks: "Single Bell" },
+          { period: "Period 9", time: "02:30 PM – 03:00 PM", duration: "30 Mins", remarks: "Long Bell at 03:00 PM (Dispersal)" }
+        ],
+        exam: [
+          { period: "Morning Reporting", time: "09:05 AM – 09:25 AM", duration: "20 Mins", remarks: "Warning Bell at 09:00 AM; Exam Seating" },
+          { period: "Morning Exam Session", time: "09:25 AM – 10:05 AM", duration: "40 Mins", remarks: "Exam Start & End Bell" },
+          { period: "Period 2", time: "10:05 AM – 10:40 AM", duration: "35 Mins", remarks: "Regular Classes Begin" },
+          { period: "Period 3", time: "10:40 AM – 11:15 AM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 4", time: "11:15 AM – 11:50 AM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 5", time: "11:50 AM – 12:25 PM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Lunch Break (Recess)", time: "12:25 PM – 12:55 PM", duration: "30 Mins", remarks: "Double Bell" },
+          { period: "Period 6", time: "12:55 PM – 01:30 PM", duration: "35 Mins", remarks: "Single Bell" },
+          { period: "Period 7", time: "01:30 PM – 02:00 PM", duration: "30 Mins", remarks: "Single Bell" },
+          { period: "Period 8", time: "02:00 PM – 02:30 PM", duration: "30 Mins", remarks: "Single Bell" },
+          { period: "Period 9 / Remedial", time: "02:30 PM – 03:00 PM", duration: "30 Mins", remarks: "Long Bell at 03:00 PM" }
+        ]
+      },
+      timetable: [
+        { p: 1, slots: { "6th": { t: "T2", s: "Maths" }, "7th": { t: "T3", s: "Science" }, "8th": { t: "T4", s: "English" }, "9th": { t: "T5", s: "SST" }, "10th": { t: "T6", s: "Hindi" } } },
+        { p: 2, slots: { "6th": { t: "T3", s: "Science" }, "7th": { t: "T2", s: "Maths" }, "8th": { t: "T5", s: "SST" }, "9th": { t: "T6", s: "Hindi" }, "10th": { t: "T4", s: "English" } } },
+        { p: 3, slots: { "6th": { t: "T4", s: "English" }, "7th": { t: "T5", s: "SST" }, "8th": { t: "T6", s: "Hindi" }, "9th": { t: "T2", s: "Maths" }, "10th": { t: "T3", s: "Science" } } },
+        { p: 4, slots: { "6th": { t: "T5", s: "SST" }, "7th": { t: "T6", s: "Hindi" }, "8th": { t: "T2", s: "Maths" }, "9th": { t: "T3", s: "Science" }, "10th": { t: "T1", s: "SST / Moral" } } },
+        { p: 5, slots: { "6th": { t: "T6", s: "Hindi" }, "7th": { t: "T4", s: "English" }, "8th": { t: "T3", s: "Science" }, "9th": { t: "T8", s: "Sanskrit" }, "10th": { t: "T2", s: "Maths" } } },
+        { p: 6, slots: { "6th": { t: "T8", s: "Sanskrit" }, "7th": { t: "T7", s: "Drawing" }, "8th": { t: "T9", s: "ICT / Comp" }, "9th": { t: "T4", s: "English" }, "10th": { t: "T5", s: "SST" } } },
+        { p: 7, slots: { "6th": { t: "T7", s: "Drawing" }, "7th": { t: "T8", s: "Sanskrit" }, "8th": { t: "T7", s: "Art / Craft" }, "9th": { t: "T9", s: "ICT / Comp" }, "10th": { t: "T8", s: "Sanskrit" } } },
+        { p: 8, slots: { "6th": { t: "T9", s: "ICT / Comp" }, "7th": { t: "T9", s: "ICT / Comp" }, "8th": { t: "T8", s: "Sanskrit" }, "9th": { t: "T7", s: "Drawing" }, "10th": { t: "T9", s: "ICT / Comp" } } },
+        { p: 9, slots: { "6th": { t: "T7", s: "Games / Yoga" }, "7th": { t: "T6", s: "Library / CCA" }, "8th": { t: "T4", s: "Remedial" }, "9th": { t: "T3", s: "Science Lab" }, "10th": { t: "T2", s: "Maths Remedial" } } }
+      ],
+      dateSheet: [
+        { date: "", s6: "English", s7: "Hindi", s8: "Mathematics", s9: "Science", s10: "Social Science" },
+        { date: "", s6: "Hindi", s7: "Mathematics", s8: "Science", s9: "Social Science", s10: "English" },
+        { date: "", s6: "Mathematics", s7: "Science", s8: "Social Science", s9: "English", s10: "Hindi" },
+        { date: "", s6: "Science", s7: "Social Science", s8: "English", s9: "Hindi", s10: "Mathematics" },
+        { date: "", s6: "Social Science", s7: "English", s8: "Hindi", s9: "Mathematics", s10: "Science" },
+        { date: "", s6: "Sanskrit / Drawing", s7: "Sanskrit / ICT", s8: "Drawing / ICT", s9: "Sanskrit / ICT", s10: "Sanskrit / ICT" }
+      ],
+      workAllotment: [
+        { teacherId: "T1", duties: "Overall School Administration, DDO Coordination, SMC Liaison, Inspection & Academic Supervision" },
+        { teacherId: "T2", duties: "Assistant Head of School, Class 10th In-charge, Science & Maths Lab, Scholarship & NMMS Nodal Officer" },
+        { teacherId: "T3", duties: "Class 9th In-charge, Eco-Club & Youth Club In-charge, Science Fund, First-Aid & Health Checkup" },
+        { teacherId: "T4", duties: "Examination & Result In-charge (6th–10th), HP Board Matric Coordination, Amalgamated/Building/Exam Fund Registers, Admission & Withdrawal Register" },
+        { teacherId: "T5", duties: "Class 8th In-charge, Samagra Shiksha (PFMS / SNA SPARSH) Dealing, Mid-Day Meal (MDM) In-charge, Free Uniform & Textbook Distribution" },
+        { teacherId: "T6", duties: "Class 7th In-charge, Library In-charge, Cultural & Morning Assembly Activities, Ek Bharat Shreshtha Bharat" },
+        { teacherId: "T7", duties: "Class 6th In-charge, Sports & Physical Education In-charge, School Decoration, Notice Board & Cleanliness" },
+        { teacherId: "T8", duties: "Scout & Guide In-charge, Moral Education & Prayer Assembly Discipline, Stock Register Maintenance" },
+        { teacherId: "T9", duties: "ICT Lab & Smart Class Panels In-charge, UDISE+ & Online Portal Data Entry, Digital Timetables, ID Cards & Official Correspondence" }
+      ],
+      // GEHS Mehani 57 Total Students Distribution across Classes 6th-10th
+      classStrength: [
+        { cls: "6th", startRoll: 601, endRoll: 611, enrolled: 11, present: 10 },
+        { cls: "7th", startRoll: 701, endRoll: 712, enrolled: 12, present: 11 },
+        { cls: "8th", startRoll: 801, endRoll: 813, enrolled: 13, present: 12 },
+        { cls: "9th", startRoll: 901, endRoll: 911, enrolled: 11, present: 10 },
+        { cls: "10th", startRoll: 1001, endRoll: 1010, enrolled: 10, present: 9 }
+      ],
+      examRooms: [
+        { room: "Room No. 1 (Hall / Big Room)", classes: ["6th", "8th", "10th"], invigilatorId: "T4" },
+        { room: "Room No. 2 (Middle Wing)", classes: ["7th", "9th"], invigilatorId: "T5" }
+      ]
+    };
+
+    const CLASSES = ["6th", "7th", "8th", "9th", "10th"];
+    const STORAGE_KEY = "gehs_mehani_portal_v2";
+
+    let state = loadState();
+    let activeTab = "bell";
+    let currentAdjustments = [];
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    }
+
+    function saveState() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    function getTeacherById(id) {
+      return state.teachers.find(t => t.id === id) || { id, name: "Unassigned", desig: "", subject: "" };
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 2600);
+    }
+
+    function copyText(text, successMsg) {
+      navigator.clipboard.writeText(text).then(() => showToast(successMsg)).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast(successMsg);
+      });
+    }
+
+    // ==================== NAVIGATION ====================
+    function switchTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+      setViewMode("form");
+    }
+
+    function setViewMode(mode) {
+      document.getElementById("pill-form").classList.toggle("active", mode === "form");
+      document.getElementById("pill-review").classList.toggle("active", mode === "review");
+      document.querySelectorAll(".module-section").forEach(sec => sec.classList.add("hidden"));
+      document.getElementById("review-section").classList.add("hidden");
+
+      if (mode === "form") {
+        document.getElementById(`tab-${activeTab}`).classList.remove("hidden");
+      } else {
+        document.getElementById("review-section").classList.remove("hidden");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goToReview() {
+      renderReviewSheet();
+      setViewMode("review");
+    }
+
+    // ==================== 1. BELL SCHEDULE ====================
+    let currentBellRows = JSON.parse(JSON.stringify(state.bellPresets.regular));
+
+    function loadBellPreset() {
+      const type = document.getElementById("bell-type").value;
+      currentBellRows = JSON.parse(JSON.stringify(state.bellPresets[type]));
+      renderBellTable();
+    }
+
+    function resetBellDefault() {
+      const type = document.getElementById("bell-type").value;
+      currentBellRows = JSON.parse(JSON.stringify(DEFAULT_DATA.bellPresets[type]));
+      renderBellTable();
+    }
+
+    function renderBellTable() {
+      document.getElementById("bell-tbody").innerHTML = currentBellRows.map((r, i) => `
+        <tr>
+          <td><input type="text" value="${escapeHtml(r.period)}" onchange="updateBellCell(${i},'period',this.value)" /></td>
+          <td><input type="text" value="${escapeHtml(r.time)}" onchange="updateBellCell(${i},'time',this.value)" /></td>
+          <td><input type="text" value="${escapeHtml(r.duration)}" onchange="updateBellCell(${i},'duration',this.value)" /></td>
+          <td><input type="text" value="${escapeHtml(r.remarks)}" onchange="updateBellCell(${i},'remarks',this.value)" /></td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeBellRow(${i})">✕</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function updateBellCell(idx, key, val) {
+      currentBellRows[idx][key] = val;
+      const type = document.getElementById("bell-type").value;
+      state.bellPresets[type] = JSON.parse(JSON.stringify(currentBellRows));
+      saveState();
+    }
+
+    function addBellRow() {
+      currentBellRows.push({ period: "Extra Period", time: "03:00 PM – 03:30 PM", duration: "30 Mins", remarks: "Single Bell" });
+      renderBellTable();
+    }
+
+    function removeBellRow(idx) {
+      currentBellRows.splice(idx, 1);
+      renderBellTable();
+    }
+
+    // ==================== 2. TEACHER ADJUSTMENT ====================
+    function renderAbsentCheckboxes() {
+      document.getElementById("absent-teachers-list").innerHTML = state.teachers.map(t => `
+        <label class="teacher-chip" id="chip-${t.id}">
+          <input type="checkbox" value="${t.id}" onchange="toggleAbsentChip('${t.id}', this.checked)" />
+          <div>
+            <div style="font-weight:700;font-size:13px;">${escapeHtml(t.name)}</div>
+            <div style="font-size:11px;color:#64748b;">${escapeHtml(t.desig)}</div>
+          </div>
+        </label>
+      `).join("");
+    }
+
+    function toggleAbsentChip(id, checked) {
+      const el = document.getElementById(`chip-${id}`);
+      if (el) el.classList.toggle("checked", checked);
+      generateAdjustments();
+    }
+
+    function getSelectedAbsentIds() {
+      return Array.from(document.querySelectorAll("#absent-teachers-list input:checked")).map(cb => cb.value);
+    }
+
+    function generateAdjustments() {
+      const absentIds = getSelectedAbsentIds();
+      const area = document.getElementById("adj-editor-area");
+      if (!absentIds.length) {
+        currentAdjustments = [];
+        area.innerHTML = `<div class="alert alert-warn">Tick one or more absent teachers above to auto-calculate free teachers.</div>`;
+        return;
+      }
+
+      const workload = {};
+      state.teachers.forEach(t => workload[t.id] = 0);
+      state.timetable.forEach(row => CLASSES.forEach(cls => {
+        const tid = row.slots[cls]?.t;
+        if (tid && workload[tid] !== undefined) workload[tid]++;
+      }));
+
+      const adjustments = [];
+      state.timetable.forEach(row => {
+        const busyInPeriod = new Set(absentIds);
+        CLASSES.forEach(cls => { if (row.slots[cls]?.t) busyInPeriod.add(row.slots[cls].t); });
+
+        CLASSES.forEach(cls => {
+          const slot = row.slots[cls];
+          if (slot && absentIds.includes(slot.t)) {
+            const freeTeachers = state.teachers
+              .filter(t => !busyInPeriod.has(t.id))
+              .sort((a, b) => (workload[a.id] || 0) - (workload[b.id] || 0));
+
+            const chosen = freeTeachers[0] ? freeTeachers[0].id : "";
+            if (chosen) {
+              busyInPeriod.add(chosen);
+              workload[chosen] = (workload[chosen] || 0) + 1;
+            }
+
+            adjustments.push({
+              period: row.p,
+              time: getPeriodTime(row.p),
+              cls,
+              subject: slot.s,
+              absentId: slot.t,
+              subId: chosen,
+              freeList: state.teachers.filter(t => !absentIds.includes(t.id))
+            });
+          }
+        });
+      });
+
+      currentAdjustments = adjustments;
+      if (!adjustments.length) {
+        area.innerHTML = `<div class="alert alert-ok">Selected teacher(s) have no scheduled periods today.</div>`;
+        return;
+      }
+
+      area.innerHTML = `
+        <div class="alert alert-ok">Auto-assigned <b>${adjustments.length}</b> periods to free teachers:</div>
+        <div class="table-wrap">
+          <table class="ui-table">
+            <thead><tr><th>Period</th><th>Class</th><th>Absent</th><th>Substitute</th></tr></thead>
+            <tbody>
+              ${adjustments.map((adj, idx) => `
+                <tr>
+                  <td><b>P-${adj.period}</b><br><span style="font-size:11px;color:#64748b;">${adj.time}</span></td>
+                  <td><b>${adj.cls}</b> (${escapeHtml(adj.subject)})</td>
+                  <td>${escapeHtml(getTeacherById(adj.absentId).name)}</td>
+                  <td>
+                    <select onchange="currentAdjustments[${idx}].subId = this.value">
+                      <option value="">-- Self Study --</option>
+                      ${adj.freeList.map(ft => `<option value="${ft.id}" ${ft.id === adj.subId ? "selected" : ""}>${escapeHtml(ft.name)}</option>`).join("")}
+                    </select>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function copyWhatsAppAdjustment() {
+      if (!currentAdjustments.length) { showToast("Select absent teacher(s) first!"); return; }
+      const d = formatDisplayDate(document.getElementById("adj-date").value);
+      const absentNames = getSelectedAbsentIds().map(id => getTeacherById(id).name).join(", ");
+      let msg = `*GEHS MEHANI — TEACHER ADJUSTMENT (${d})*\nAbsent: ${absentNames}\n\n`;
+      currentAdjustments.forEach(a => {
+        const sub = a.subId ? getTeacherById(a.subId).name : "Self Study";
+        msg += `• *P-${a.period}* (${a.time}) | Class ${a.cls} (${a.subject}) ➔ *${sub}*\n`;
+      });
+      copyText(msg, "Adjustment copied for WhatsApp!");
+    }
+
+    function getPeriodTime(pNum) {
+      const found = state.bellPresets.regular.find(r => r.period.includes(`Period ${pNum}`));
+      return found ? found.time : `Period ${pNum}`;
+    }
+
+    // ==================== 3. TIMETABLE ====================
+    function renderTimetableEditor() {
+      document.getElementById("tt-single-teacher").innerHTML = state.teachers
+        .map(t => `<option value="${t.id}">${escapeHtml(t.name)} (${escapeHtml(t.desig)})</option>`).join("");
+
+      document.getElementById("tt-master-tbody").innerHTML = state.timetable.map((row, rIdx) => `
+        <tr>
+          <td style="white-space:nowrap;"><b>Period ${row.p}</b><br><span style="font-size:11px;color:#64748b;">${getPeriodTime(row.p)}</span></td>
+          ${CLASSES.map(cls => {
+            const slot = row.slots[cls] || { t: "", s: "" };
+            return `
+              <td style="min-width:130px;">
+                <select style="padding:4px;font-size:12px;min-height:32px;margin-bottom:4px;" onchange="updateTTSlot(${rIdx},'${cls}','t',this.value)">
+                  <option value="">-- Free --</option>
+                  ${state.teachers.map(t => `<option value="${t.id}" ${t.id === slot.t ? "selected" : ""}>${escapeHtml(t.name)}</option>`).join("")}
+                </select>
+                <input type="text" style="padding:4px;font-size:12px;min-height:30px;" value="${escapeHtml(slot.s)}" placeholder="Subject" onchange="updateTTSlot(${rIdx},'${cls}','s',this.value)" />
+              </td>
+            `;
+          }).join("")}
+        </tr>
+      `).join("");
+      checkTTClashes();
+    }
+
+    function updateTTSlot(rIdx, cls, field, val) {
+      if (!state.timetable[rIdx].slots[cls]) state.timetable[rIdx].slots[cls] = { t: "", s: "" };
+      state.timetable[rIdx].slots[cls][field] = val;
+      saveState();
+      checkTTClashes();
+    }
+
+    function checkTTClashes() {
+      const clashes = [];
+      state.timetable.forEach(row => {
+        const seen = {};
+        CLASSES.forEach(cls => {
+          const tid = row.slots[cls]?.t;
+          if (tid) {
+            if (seen[tid]) clashes.push(`Period ${row.p}: <b>${getTeacherById(tid).name}</b> in Class ${seen[tid]} & ${cls}`);
+            else seen[tid] = cls;
+          }
+        });
+      });
+      document.getElementById("tt-clash-box").innerHTML = clashes.length
+        ? `<div class="alert alert-warn">⚠️ <b>Clashes:</b> ${clashes.join("; ")}</div>`
+        : `<div class="alert alert-ok">✅ Zero teacher clashes across all 9 periods & 5 classes.</div>`;
+    }
+
+    function toggleSingleTeacherSelect() {
+      document.getElementById("tt-single-teacher-wrap").classList.toggle(
+        "hidden", document.getElementById("tt-pdf-mode").value !== "single-teacher"
+      );
+    }
+
+    // ==================== 4. EXAM DATE SHEET ====================
+    function initDateSheet() {
+      const startInput = document.getElementById("ds-start-date");
+      if (!startInput.value) {
+        const d = new Date();
+        d.setDate(d.getDate() + 3);
+        startInput.value = d.toISOString().split("T")[0];
+      }
+      autoFillDateSheetDates();
+    }
+
+    function autoFillDateSheetDates() {
+      const startStr = document.getElementById("ds-start-date").value;
+      if (!startStr) return;
+      let cur = new Date(startStr + "T00:00:00");
+      state.dateSheet.forEach(row => {
+        if (cur.getDay() === 0) cur.setDate(cur.getDate() + 1);
+        const dd = String(cur.getDate()).padStart(2, "0");
+        const mm = String(cur.getMonth() + 1).padStart(2, "0");
+        const yyyy = cur.getFullYear();
+        const dayName = cur.toLocaleDateString("en-IN", { weekday: "short" });
+        row.date = `${dd}-${mm}-${yyyy} (${dayName})`;
+        cur.setDate(cur.getDate() + 1);
+      });
+      renderDateSheetTable();
+    }
+
+    function rebuildDateSheetRows() {
+      const count = parseInt(document.getElementById("ds-days-count").value, 10);
+      while (state.dateSheet.length < count) state.dateSheet.push({ date: "", s6: "-", s7: "-", s8: "-", s9: "-", s10: "-" });
+      state.dateSheet = state.dateSheet.slice(0, count);
+      autoFillDateSheetDates();
+    }
+
+    function renderDateSheetTable() {
+      document.getElementById("ds-tbody").innerHTML = state.dateSheet.map((r, i) => `
+        <tr>
+          <td><input type="text" style="min-width:125px;padding:5px;min-height:34px;" value="${escapeHtml(r.date)}" onchange="state.dateSheet[${i}].date=this.value;saveState();" /></td>
+          <td><input type="text" style="min-width:90px;padding:5px;min-height:34px;" value="${escapeHtml(r.s6)}" onchange="state.dateSheet[${i}].s6=this.value;saveState();" /></td>
+          <td><input type="text" style="min-width:90px;padding:5px;min-height:34px;" value="${escapeHtml(r.s7)}" onchange="state.dateSheet[${i}].s7=this.value;saveState();" /></td>
+          <td><input type="text" style="min-width:90px;padding:5px;min-height:34px;" value="${escapeHtml(r.s8)}" onchange="state.dateSheet[${i}].s8=this.value;saveState();" /></td>
+          <td><input type="text" style="min-width:90px;padding:5px;min-height:34px;" value="${escapeHtml(r.s9)}" onchange="state.dateSheet[${i}].s9=this.value;saveState();" /></td>
+          <td><input type="text" style="min-width:90px;padding:5px;min-height:34px;" value="${escapeHtml(r.s10)}" onchange="state.dateSheet[${i}].s10=this.value;saveState();" /></td>
+        </tr>
+      `).join("");
+    }
+
+    function copyWhatsAppDateSheet() {
+      const title = document.getElementById("ds-title").value;
+      const time = document.getElementById("ds-time").value;
+      let msg = `*GEHS MEHANI — ${title}*\nTime: ${time}\n\n`;
+      state.dateSheet.forEach(r => {
+        msg += `📅 *${r.date}*\n6th: ${r.s6} | 7th: ${r.s7} | 8th: ${r.s8} | 9th: ${r.s9} | 10th: ${r.s10}\n\n`;
+      });
+      copyText(msg, "Date Sheet copied for WhatsApp!");
+    }
+
+    // ==================== 5. WORK ALLOTMENT ====================
+    function renderWorkList() {
+      document.getElementById("work-list-container").innerHTML = state.workAllotment.map((item, idx) => `
+        <div style="border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px;background:#f8fafc;">
+          <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:6px;">
+            <select style="min-height:38px;padding:6px;" onchange="state.workAllotment[${idx}].teacherId=this.value;saveState();">
+              ${state.teachers.map(t => `<option value="${t.id}" ${t.id === item.teacherId ? "selected" : ""}>${escapeHtml(t.name)} — ${escapeHtml(t.desig)}</option>`).join("")}
+            </select>
+            <button class="btn btn-danger btn-sm" onclick="removeWorkRow(${idx})">✕</button>
+          </div>
+          <textarea rows="2" onchange="state.workAllotment[${idx}].duties=this.value;saveState();">${escapeHtml(item.duties)}</textarea>
+        </div>
+      `).join("");
+    }
+
+    function addWorkRow() {
+      state.workAllotment.push({ teacherId: state.teachers[0]?.id || "T1", duties: "Additional School Duty" });
+      renderWorkList();
+      saveState();
+    }
+
+    function removeWorkRow(idx) {
+      state.workAllotment.splice(idx, 1);
+      renderWorkList();
+      saveState();
+    }
+
+    // ==================== 6. EXAM SEATING PLAN ====================
+    function renderSeatingEditor() {
+      let total = 0;
+      document.getElementById("seat-strength-tbody").innerHTML = state.classStrength.map((c, idx) => {
+        const count = Math.max(0, c.endRoll - c.startRoll + 1);
+        c.enrolled = count;
+        total += count;
+        return `
+          <tr>
+            <td><b>Class ${c.cls}</b></td>
+            <td><input type="number" style="padding:5px;min-height:34px;" value="${c.startRoll}" onchange="updateSeatRange(${idx},'startRoll',this.value)" /></td>
+            <td><input type="number" style="padding:5px;min-height:34px;" value="${c.endRoll}" onchange="updateSeatRange(${idx},'endRoll',this.value)" /></td>
+            <td><b>${count}</b></td>
+          </tr>
+        `;
+      }).join("");
+      document.getElementById("seat-total-students").textContent = total;
+
+      document.getElementById("seat-rooms-list").innerHTML = state.examRooms.map((rm, rIdx) => `
+        <div style="border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;background:#f8fafc;">
+          <div class="grid-2" style="margin-bottom:6px;">
+            <input type="text" value="${escapeHtml(rm.room)}" onchange="state.examRooms[${rIdx}].room=this.value;saveState();" placeholder="Room Name" />
+            <select onchange="state.examRooms[${rIdx}].invigilatorId=this.value;saveState();">
+              ${state.teachers.map(t => `<option value="${t.id}" ${t.id === rm.invigilatorId ? "selected" : ""}>Invigilator: ${escapeHtml(t.name)}</option>`).join("")}
+            </select>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13px;">
+              ${CLASSES.map(cls => `
+                <label style="display:inline-flex;align-items:center;gap:4px;margin:0;cursor:pointer;">
+                  <input type="checkbox" ${rm.classes.includes(cls) ? "checked" : ""} onchange="toggleRoomClass(${rIdx},'${cls}',this.checked)" /> Class ${cls}
+                </label>
+              `).join("")}
+            </div>
+            ${state.examRooms.length > 1 ? `<button class="btn btn-danger btn-sm" onclick="removeExamRoom(${rIdx})">Remove</button>` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function updateSeatRange(idx, field, val) {
+      state.classStrength[idx][field] = parseInt(val, 10) || 0;
+      saveState();
+      renderSeatingEditor();
+      renderMDMEditor();
+    }
+
+    function toggleRoomClass(rIdx, cls, checked) {
+      const list = state.examRooms[rIdx].classes;
+      if (checked && !list.includes(cls)) list.push(cls);
+      if (!checked) state.examRooms[rIdx].classes = list.filter(c => c !== cls);
+      saveState();
+    }
+
+    function addExamRoom() {
+      state.examRooms.push({ room: `Room No. ${state.examRooms.length + 1}`, classes: ["6th", "10th"], invigilatorId: "T6" });
+      renderSeatingEditor();
+      saveState();
+    }
+
+    function removeExamRoom(idx) {
+      state.examRooms.splice(idx, 1);
+      renderSeatingEditor();
+      saveState();
+    }
+
+    // ==================== 7. DAILY ATTENDANCE & MDM ====================
+    function renderMDMEditor() {
+      document.getElementById("mdm-tbody").innerHTML = state.classStrength.map((c, idx) => {
+        const isMDM = ["6th", "7th", "8th"].includes(c.cls);
+        const absent = Math.max(0, c.enrolled - c.present);
+        return `
+          <tr>
+            <td><b>Class ${c.cls}</b></td>
+            <td>${c.enrolled}</td>
+            <td><input type="number" min="0" max="${c.enrolled}" style="padding:5px;min-height:34px;max-width:85px;" value="${c.present}" onchange="updatePresent(${idx},this.value)" /></td>
+            <td>${absent}</td>
+            <td>${isMDM ? `<b style="color:var(--success);">Yes (${c.present})</b>` : "No (High)"}</td>
+          </tr>
+        `;
+      }).join("");
+      updateMDMStats();
+    }
+
+    function updatePresent(idx, val) {
+      const max = state.classStrength[idx].enrolled;
+      state.classStrength[idx].present = Math.min(max, Math.max(0, parseInt(val, 10) || 0));
+      saveState();
+      renderMDMEditor();
+    }
+
+    function updateMDMStats() {
+      let totEnrolled = 0, totPresent = 0, mdmPresent = 0;
+      state.classStrength.forEach(c => {
+        totEnrolled += c.enrolled;
+        totPresent += c.present;
+        if (["6th", "7th", "8th"].includes(c.cls)) mdmPresent += c.present;
+      });
+      const riceKg = ((mdmPresent * 150) / 1000).toFixed(2);
+      document.getElementById("stat-enrolled").textContent = totEnrolled;
+      document.getElementById("stat-present").textContent = totPresent;
+      document.getElementById("stat-mdm-kids").textContent = mdmPresent;
+      document.getElementById("stat-rice").textContent = `${riceKg} kg`;
+    }
+
+    function copyWhatsAppMDM() {
+      const d = formatDisplayDate(document.getElementById("mdm-date").value);
+      const menu = document.getElementById("mdm-menu").value;
+      let totEnrolled = 0, totPresent = 0, mdmPresent = 0;
+      const lines = state.classStrength.map(c => {
+        totEnrolled += c.enrolled;
+        totPresent += c.present;
+        if (["6th", "7th", "8th"].includes(c.cls)) mdmPresent += c.present;
+        return `• Class ${c.cls}: ${c.present}/${c.enrolled}`;
+      });
+      const riceKg = ((mdmPresent * 150) / 1000).toFixed(2);
+      const msg = `*GEHS MEHANI (UDISE: 02050201502)*\n*Daily Attendance & MDM Report — ${d}*\n\n${lines.join("\n")}\n\n*Total Present:* ${totPresent}/${totEnrolled}\n*MDM Beneficiaries (6th–8th):* ${mdmPresent}\n*Rice Consumed (@150g):* ${riceKg} kg\n*Menu:* ${menu}`;
+      copyText(msg, "Attendance & MDM copied for WhatsApp!");
+    }
+
+    // ==================== 8. NOTICE / CIRCULAR PRESETS ====================
+    function loadNoticePreset() {
+      const p = document.getElementById("notice-preset").value;
+      const heading = document.getElementById("notice-heading");
+      const body = document.getElementById("notice-body");
+      if (p === "ptm") {
+        heading.value = "URGENT NOTICE — PARENT-TEACHER MEETING (PTM)";
+        body.value = "All parents/guardians of students studying in Classes 6th to 10th at Government Excellence High School Mehani are cordially invited to attend the Parent-Teacher Meeting (PTM) on Saturday at 10:30 AM in the school campus to discuss student academic progress, attendance, and upcoming examinations.";
+      } else if (p === "holiday") {
+        heading.value = "HOLIDAY NOTICE";
+        body.value = "It is notified for the information of all students and staff members that Government Excellence High School Mehani will remain closed tomorrow on account of local festival/gazetted holiday. Regular classes will resume the following working day at 09:00 AM.";
+      } else if (p === "duty") {
+        heading.value = "OFFICE ORDER — OFFICIAL DUTY DEPUTATION";
+        body.value = "Sh. __________________________, Designation __________________________, of Government Excellence High School Mehani is hereby deputed to attend official work / training / cluster meeting at __________________________ on dated _____________. He/She is directed to report back with compliance.";
+      } else {
+        heading.value = "OFFICE NOTICE / CIRCULAR";
+        body.value = "It is hereby notified for the information of all concerned staff members and students of GEHS Mehani that...";
+      }
+    }
+
+    // ==================== A4 PDF RENDERER ====================
+    function getLetterheadHTML() {
+      return `
+        <div class="a4-header">
+          <div style="font-size:12px;font-weight:bold;">HIMACHAL PRADESH EDUCATION DEPARTMENT</div>
+          <h2>${escapeHtml(state.school.name)}</h2>
+          <div class="sub1">${escapeHtml(state.school.block)}</div>
+          <div class="sub2">School UDISE Code: <b>${escapeHtml(state.school.udise)}</b> | Academic Session: 2026–27</div>
+        </div>
+      `;
+    }
+
+    function getSignatureFooterHTML(extraLeft = "") {
+      return `
+        <div class="a4-footer">
+          <div class="a4-sig-box" style="text-align:left;">${extraLeft}</div>
+          <div class="a4-sig-box">
+            <div style="height:36px;"></div>
+            <div>Headmaster</div>
+            <div>GEHS Mehani, Distt. Mandi (H.P.)</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderReviewSheet() {
+      const out = document.getElementById("a4-output");
+
+      if (activeTab === "bell") {
+        const typeLabel = document.getElementById("bell-type").selectedOptions[0].text;
+        const session = document.getElementById("bell-session").value;
+        const note = document.getElementById("bell-note").value;
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">${escapeHtml(typeLabel)}</div>
+          <div class="a4-meta"><span>Session: ${escapeHtml(session)}</span><span>Timing: 09:00 AM – 03:00 PM</span></div>
+          <table class="a4-table">
+            <thead><tr><th style="width:7%;">Sr.</th><th style="width:28%;">Period / Event</th><th style="width:24%;">Time Slot</th><th style="width:13%;">Duration</th><th style="width:28%;">Bell / Remarks</th></tr></thead>
+            <tbody>
+              ${currentBellRows.map((r, i) => `
+                <tr><td>${i + 1}</td><td class="left"><b>${escapeHtml(r.period)}</b></td><td><b>${escapeHtml(r.time)}</b></td><td>${escapeHtml(r.duration)}</td><td class="left">${escapeHtml(r.remarks)}</td></tr>
+              `).join("")}
+            </tbody>
+          </table>
+          <div class="a4-notes"><b>Note:</b> ${escapeHtml(note)}</div>
+          ${getSignatureFooterHTML("<div>Time Table In-charge</div><div>GEHS Mehani</div>")}
+        `;
+      }
+
+      else if (activeTab === "adj") {
+        const dateVal = formatDisplayDate(document.getElementById("adj-date").value);
+        const dispatch = document.getElementById("adj-dispatch").value || "GEHS/MHN/ADJ/2026";
+        const absentNames = getSelectedAbsentIds().map(id => getTeacherById(id).name).join(", ") || "None";
+        const note = document.getElementById("adj-note").value;
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">DAILY TEACHER SUBSTITUTION / ADJUSTMENT ORDER</div>
+          <div class="a4-meta"><span>Order No.: ${escapeHtml(dispatch)}</span><span>Date: ${escapeHtml(dateVal)}</span></div>
+          <div style="font-size:12.5px;margin-bottom:10px;text-align:left;">
+            Consequent upon the leave/absence of <b>${escapeHtml(absentNames)}</b> on <b>${escapeHtml(dateVal)}</b>, the following temporary class adjustment is hereby ordered:
+          </div>
+          <table class="a4-table">
+            <thead><tr><th>Sr.</th><th>Period & Time</th><th>Class</th><th>Subject</th><th>Absent Teacher</th><th>Adjusted Teacher</th><th>Sign</th></tr></thead>
+            <tbody>
+              ${currentAdjustments.length ? currentAdjustments.map((a, i) => `
+                <tr>
+                  <td>${i + 1}</td>
+                  <td><b>Period ${a.period}</b><br><span style="font-size:10.5px;">${escapeHtml(a.time)}</span></td>
+                  <td><b>${escapeHtml(a.cls)}</b></td>
+                  <td>${escapeHtml(a.subject)}</td>
+                  <td class="left">${escapeHtml(getTeacherById(a.absentId).name)}</td>
+                  <td class="left"><b>${a.subId ? escapeHtml(getTeacherById(a.subId).name) : "Self Study"}</b></td>
+                  <td></td>
+                </tr>
+              `).join("") : `<tr><td colspan="7">No periods affected today.</td></tr>`}
+            </tbody>
+          </table>
+          <div class="a4-notes"><b>Instructions:</b> ${escapeHtml(note)}</div>
+          ${getSignatureFooterHTML("<div>Time Table In-charge</div>")}
+        `;
+      }
+
+      else if (activeTab === "tt") {
+        const mode = document.getElementById("tt-pdf-mode").value;
+        if (mode === "master-class") {
+          out.innerHTML = `
+            ${getLetterheadHTML()}
+            <div class="a4-doc-title">MASTER CLASS-WISE TIMETABLE (CLASSES 6TH TO 10TH)</div>
+            <table class="a4-table">
+              <thead><tr><th>Period & Time</th>${CLASSES.map(c => `<th>Class ${c}</th>`).join("")}</tr></thead>
+              <tbody>
+                ${state.timetable.map(row => `
+                  <tr>
+                    <td><b>Period ${row.p}</b><br><span style="font-size:10.5px;">${getPeriodTime(row.p)}</span></td>
+                    ${CLASSES.map(c => {
+                      const sl = row.slots[c] || {};
+                      return `<td><b>${escapeHtml(sl.s || "-")}</b><br><span style="font-size:10.5px;">${sl.t ? escapeHtml(getTeacherById(sl.t).name) : ""}</span></td>`;
+                    }).join("")}
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+            ${getSignatureFooterHTML("<div>Time Table Committee</div>")}
+          `;
+        } else {
+          const targetTeachers = mode === "single-teacher"
+            ? [getTeacherById(document.getElementById("tt-single-teacher").value)]
+            : state.teachers;
+          out.innerHTML = `
+            ${getLetterheadHTML()}
+            <div class="a4-doc-title">TEACHER-WISE INDIVIDUAL TIMETABLE & WORKLOAD</div>
+            ${targetTeachers.map(teacher => {
+              let totalPeriods = 0;
+              const rowsHtml = state.timetable.map(row => {
+                const assigned = [];
+                CLASSES.forEach(c => {
+                  if (row.slots[c]?.t === teacher.id) { assigned.push(`Class ${c} (${row.slots[c].s})`); totalPeriods++; }
+                });
+                return `<tr><td><b>Period ${row.p}</b></td><td>${getPeriodTime(row.p)}</td><td class="left"><b>${assigned.length ? escapeHtml(assigned.join(", ")) : "Free / Preparation"}</b></td></tr>`;
+              }).join("");
+              return `
+                <div style="margin-bottom:14px;page-break-inside:avoid;">
+                  <div style="background:#f1f5f9;border:1px solid #000;border-bottom:none;padding:5px 8px;font-size:12.5px;display:flex;justify-content:space-between;">
+                    <span><b>Teacher:</b> ${escapeHtml(teacher.name)} (${escapeHtml(teacher.desig)})</span>
+                    <span><b>Daily:</b> ${totalPeriods} | <b>Weekly:</b> ${totalPeriods * 6}</span>
+                  </div>
+                  <table class="a4-table" style="margin-bottom:6px;">
+                    <thead><tr><th style="width:18%;">Period</th><th style="width:32%;">Timing</th><th style="width:50%;">Allotted Class & Subject</th></tr></thead>
+                    <tbody>${rowsHtml}</tbody>
+                  </table>
+                </div>
+              `;
+            }).join("")}
+            ${getSignatureFooterHTML("<div>Time Table In-charge</div>")}
+          `;
+        }
+      }
+
+      else if (activeTab === "ds") {
+        const title = document.getElementById("ds-title").value;
+        const time = document.getElementById("ds-time").value;
+        const instr = document.getElementById("ds-instructions").value.replace(/\n/g, "<br>");
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">${escapeHtml(title)}</div>
+          <div class="a4-meta"><span>Classes: 6th to 10th</span><span>Time: ${escapeHtml(time)}</span></div>
+          <table class="a4-table">
+            <thead><tr><th style="width:22%;">Date & Day</th><th>Class 6th</th><th>Class 7th</th><th>Class 8th</th><th>Class 9th</th><th>Class 10th</th></tr></thead>
+            <tbody>
+              ${state.dateSheet.map(r => `<tr><td><b>${escapeHtml(r.date)}</b></td><td>${escapeHtml(r.s6)}</td><td>${escapeHtml(r.s7)}</td><td>${escapeHtml(r.s8)}</td><td>${escapeHtml(r.s9)}</td><td>${escapeHtml(r.s10)}</td></tr>`).join("")}
+            </tbody>
+          </table>
+          <div class="a4-notes"><b>Important Instructions:</b><br>${instr}</div>
+          ${getSignatureFooterHTML("<div>Examination In-charge</div>")}
+        `;
+      }
+
+      else if (activeTab === "work") {
+        const orderNo = document.getElementById("work-order-no").value;
+        const orderDate = formatDisplayDate(document.getElementById("work-date").value);
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">OFFICE ORDER — STAFF WORK & PORTFOLIO ALLOTMENT</div>
+          <div class="a4-meta"><span>No.: ${escapeHtml(orderNo)}</span><span>Dated: ${escapeHtml(orderDate)}</span></div>
+          <div style="font-size:12.5px;margin-bottom:10px;text-align:left;">
+            In the interest of smooth academic and administrative functioning of <b>Government Excellence High School Mehani</b> for the session <b>2026–27</b>, the following duties and portfolios are hereby allotted:
+          </div>
+          <table class="a4-table">
+            <thead><tr><th style="width:6%;">Sr.</th><th style="width:27%;">Name & Designation</th><th style="width:53%;">Allotted Duties / Registers / Portfolios</th><th style="width:14%;">Sign</th></tr></thead>
+            <tbody>
+              ${state.workAllotment.map((w, i) => {
+                const t = getTeacherById(w.teacherId);
+                return `<tr><td>${i + 1}</td><td class="left"><b>${escapeHtml(t.name)}</b><br><span style="font-size:11px;">${escapeHtml(t.desig)}</span></td><td class="left">${escapeHtml(w.duties)}</td><td></td></tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+          <div class="a4-notes">Copy to: All concerned staff members for strict compliance & Guard File.</div>
+          ${getSignatureFooterHTML("<div>Issued for Compliance</div>")}
+        `;
+      }
+
+      else if (activeTab === "seat") {
+        const exam = document.getElementById("seat-exam").value;
+        const dt = document.getElementById("seat-date").value;
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">${escapeHtml(exam)}</div>
+          <div class="a4-meta"><span>Total Students: ${document.getElementById("seat-total-students").textContent}</span><span>${escapeHtml(dt)}</span></div>
+          ${state.examRooms.map(rm => {
+            const inv = getTeacherById(rm.invigilatorId);
+            const roomClasses = state.classStrength.filter(c => rm.classes.includes(c.cls));
+            let roomTotal = 0;
+            const rows = roomClasses.map(c => {
+              roomTotal += c.enrolled;
+              return `<tr><td><b>Class ${c.cls}</b></td><td>Roll No. ${c.startRoll} to ${c.endRoll}</td><td><b>${c.enrolled}</b></td></tr>`;
+            }).join("");
+            return `
+              <div style="margin-bottom:14px;page-break-inside:avoid;">
+                <div style="background:#f1f5f9;border:1px solid #000;border-bottom:none;padding:5px 8px;font-size:12.5px;display:flex;justify-content:space-between;">
+                  <span><b>${escapeHtml(rm.room)}</b> (Total: ${roomTotal} Students)</span>
+                  <span><b>Invigilator:</b> ${escapeHtml(inv.name)}</span>
+                </div>
+                <table class="a4-table" style="margin-bottom:4px;">
+                  <thead><tr><th style="width:25%;">Class</th><th style="width:50%;">Allotted Roll Number Range</th><th style="width:25%;">Candidate Count</th></tr></thead>
+                  <tbody>${rows || `<tr><td colspan="3">No classes assigned</td></tr>`}</tbody>
+                </table>
+              </div>
+            `;
+          }).join("")}
+          <div class="a4-notes"><b>Note:</b> Students of mixed classes are seated in alternating rows/columns. Invigilators must collect answer sheets 5 minutes after final bell.</div>
+          ${getSignatureFooterHTML("<div>Examination Superintendent</div>")}
+        `;
+      }
+
+      else if (activeTab === "mdm") {
+        const d = formatDisplayDate(document.getElementById("mdm-date").value);
+        const menu = document.getElementById("mdm-menu").value;
+        let totEnrolled = 0, totPresent = 0, mdmPresent = 0;
+        const rows = state.classStrength.map(c => {
+          totEnrolled += c.enrolled;
+          totPresent += c.present;
+          const isMDM = ["6th", "7th", "8th"].includes(c.cls);
+          if (isMDM) mdmPresent += c.present;
+          return `<tr><td><b>Class ${c.cls}</b></td><td>${c.enrolled}</td><td><b>${c.present}</b></td><td>${c.enrolled - c.present}</td><td>${isMDM ? c.present : "N/A"}</td></tr>`;
+        }).join("");
+        const riceKg = ((mdmPresent * 150) / 1000).toFixed(2);
+        const dalKg = ((mdmPresent * 30) / 1000).toFixed(2);
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-doc-title">DAILY STUDENT ATTENDANCE & MID-DAY MEAL (MDM) REGISTER</div>
+          <div class="a4-meta"><span>Date: ${escapeHtml(d)}</span><span>Menu: ${escapeHtml(menu)}</span></div>
+          <table class="a4-table">
+            <thead><tr><th>Class</th><th>Total Enrolled</th><th>Present Today</th><th>Absent</th><th>MDM Beneficiaries (6th–8th)</th></tr></thead>
+            <tbody>
+              ${rows}
+              <tr style="background:#f1f5f9;font-weight:bold;">
+                <td>GRAND TOTAL</td><td>${totEnrolled}</td><td>${totPresent}</td><td>${totEnrolled - totPresent}</td><td>${mdmPresent}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="a4-table">
+            <thead><tr><th>MDM Beneficiaries (6th–8th)</th><th>Rice Norm (150g/student)</th><th>Dal / Pulses (30g/student)</th><th>Cook-cum-Helper Sign</th></tr></thead>
+            <tbody>
+              <tr><td><b>${mdmPresent} Students</b></td><td><b>${riceKg} kg</b></td><td><b>${dalKg} kg</b></td><td style="height:28px;"></td></tr>
+            </tbody>
+          </table>
+          ${getSignatureFooterHTML("<div>MDM In-charge (Sh. Tej Singh)</div>")}
+        `;
+      }
+
+      else if (activeTab === "notice") {
+        const ref = document.getElementById("notice-ref").value;
+        const heading = document.getElementById("notice-heading").value;
+        const body = document.getElementById("notice-body").value.replace(/\n/g, "<br><br>");
+        const today = formatDisplayDate(new Date().toISOString().split("T")[0]);
+        out.innerHTML = `
+          ${getLetterheadHTML()}
+          <div class="a4-meta"><span>Ref No.: ${escapeHtml(ref)}</span><span>Date: ${escapeHtml(today)}</span></div>
+          <div class="a4-doc-title" style="margin:18px 0;">${escapeHtml(heading)}</div>
+          <div style="font-size:14px;line-height:1.7;text-align:justify;margin:16px 0 36px;padding:0 6px;">
+            ${body}
+          </div>
+          ${getSignatureFooterHTML("<div>Copy to: Notice Board & WhatsApp Group</div>")}
+        `;
+      }
+    }
+
+    // ==================== STAFF & BACKUP MODAL ====================
+    function openDataModal() {
+      renderStaffManager();
+      document.getElementById("data-modal").classList.remove("hidden");
+    }
+
+    function closeDataModal() {
+      document.getElementById("data-modal").classList.add("hidden");
+      renderAbsentCheckboxes();
+      renderTimetableEditor();
+      renderWorkList();
+      renderSeatingEditor();
+    }
+
+    function renderStaffManager() {
+      document.getElementById("staff-manager-list").innerHTML = state.teachers.map((t, i) => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-bottom:1px solid #e2e8f0;font-size:13px;">
+          <div><b>${escapeHtml(t.name)}</b> — <span style="color:#475569;">${escapeHtml(t.desig)}</span></div>
+          ${state.teachers.length > 1 ? `<button class="btn btn-danger btn-sm" onclick="removeStaff(${i})">Remove</button>` : ""}
+        </div>
+      `).join("");
+    }
+
+    function addNewStaff() {
+      const name = document.getElementById("new-staff-name").value.trim();
+      const desig = document.getElementById("new-staff-desig").value.trim() || "Teacher";
+      if (!name) return;
+      state.teachers.push({ id: "T" + Date.now(), name, desig, subject: desig });
+      document.getElementById("new-staff-name").value = "";
+      document.getElementById("new-staff-desig").value = "";
+      saveState();
+      renderStaffManager();
+    }
+
+    function removeStaff(idx) {
+      state.teachers.splice(idx, 1);
+      saveState();
+      renderStaffManager();
+    }
+
+    function exportBackup() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "GEHS_Mehani_Portal_Backup.json";
+      a.click();
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.teachers && parsed.timetable) {
+            state = parsed;
+            saveState();
+            initAll();
+            closeDataModal();
+            showToast("Backup restored successfully!");
+          }
+        } catch (err) {
+          alert("Invalid JSON backup file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function factoryReset() {
+      if (confirm("Reset all data back to GEHS Mehani defaults?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        state = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        currentBellRows = JSON.parse(JSON.stringify(state.bellPresets.regular));
+        initAll();
+        closeDataModal();
+      }
+    }
+
+    // ==================== HELPERS & INIT ====================
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatDisplayDate(iso) {
+      if (!iso) return new Date().toLocaleDateString("en-IN");
+      const [y, m, d] = iso.split("-");
+      return `${d}-${m}-${y}`;
+    }
+
+    function initAll() {
+      const todayIso = new Date().toISOString().split("T")[0];
+      document.getElementById("adj-date").value = todayIso;
+      document.getElementById("work-date").value = todayIso;
+      document.getElementById("mdm-date").value = todayIso;
+
+      renderBellTable();
+      renderAbsentCheckboxes();
+      generateAdjustments();
+      renderTimetableEditor();
+      initDateSheet();
+      renderWorkList();
+      renderSeatingEditor();
+      renderMDMEditor();
+    }
+
+    initAll();
+  </script>
+</body>
+</html>
